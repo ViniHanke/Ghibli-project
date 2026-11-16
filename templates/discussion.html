@@ -1,49 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Meta tags, web page title, and links to external CSS and JavaScript files -->
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Ghibli Fans - discussion </title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ghibli Fans - {{ movie.title }}</title>
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-	<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 </head>
-
 <body>
-    <header>
-        <!-- Header image (Studio Ghibli logo) -->
-        <div class="header-img">
-            <a class="navbar-brand" href="/">
-                <img style="max-width:640px; margin-top: 1px;" src="{{ url_for('static', filename='img/Studio-Ghibli-Logo.jpg') }}">
-            </a>
-        </div>
+    <header class="site-header">
+        <a href="{{ url_for('movies') }}" aria-label="Ghibli Fans movies">
+            <img src="{{ url_for('static', filename='img/Studio-Ghibli-Logo.jpg') }}" alt="Studio Ghibli logo">
+        </a>
     </header>
-
- 
-	<nav>
-		<!-- Navigation button to the register page -->
-		<div class="navbar-links">
-			<a href="{{ url_for('register') }}">
-				<button type="button" class="btn btn-primary" aria-label="Left Align" style="margin-top: 5px; margin-bottom: 5px; height: 44px; margin-right: 15px">
-					<span class="glyphicon glyphicon-off" aria-hidden="true">Register</span>
-				</button>
-			</a>
-		</div>
+    <nav class="site-nav" aria-label="Main navigation">
+        <a class="button" href="{{ url_for('movies') }}">Movies</a>
+        <a class="button" href="{{ url_for('logout') }}">Log out</a>
     </nav>
+    <main class="page-content">
+        <h1>Discussion: {{ movie.title }}</h1>
+        <p>Signed in as {{ session['member_name'] }}. You can edit or delete your own comments.</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p class="message {{ category }}" role="status">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
 
-    <content>
-	    
-            <!-- main content -->
-            <h2>Ghibli Fans - discussion </h2>
-            
-	</content>
+        <section class="comment-form" aria-labelledby="add-comment-heading">
+            <h2 id="add-comment-heading">Add a comment</h2>
+            <form action="{{ url_for('add_comment') }}" method="post">
+                <input type="hidden" name="movie_id" value="{{ movie.movieID }}">
+                <label for="new-comment">Your comment (up to 256 characters)</label>
+                <textarea id="new-comment" name="comment" maxlength="256" required></textarea>
+                <button type="submit">Add comment</button>
+            </form>
+        </section>
 
-	<footer>
-		<!-- Footer content (e.g. Copyright notice) -->
-		<div class="blockquote-footer">
-			<p>&copy; 2026 Ghibli Fans. All rights reserved.</p>
-		</div>	
-    </footer>
-
+        <section class="comments" aria-labelledby="comments-heading">
+            <h2 id="comments-heading">Comments</h2>
+            {% for comment in comments %}
+                <article class="comment-card">
+                    <p class="comment-by"><strong>{{ comment.member_name }}</strong> (@{{ comment.usrid }}) · {{ comment.commentDate }}</p>
+                    {% if comment.memberID == session['memberID'] %}
+                        <form action="{{ url_for('update_comment') }}" method="post" class="comment-edit-form">
+                            <input type="hidden" name="movie_id" value="{{ movie.movieID }}">
+                            <input type="hidden" name="discussion_id" value="{{ comment.discussionID }}">
+                            <label for="comment-{{ comment.discussionID }}">Edit your comment</label>
+                            <textarea id="comment-{{ comment.discussionID }}" name="comment" maxlength="256" required>{{ comment.comments }}</textarea>
+                            <button type="submit">Update comment</button>
+                        </form>
+                        <form action="{{ url_for('delete_comment') }}" method="post" class="inline-form" onsubmit="return confirm('Delete this comment?');">
+                            <input type="hidden" name="movie_id" value="{{ movie.movieID }}">
+                            <input type="hidden" name="discussion_id" value="{{ comment.discussionID }}">
+                            <button type="submit" class="button-danger">Delete comment</button>
+                        </form>
+                    {% else %}
+                        <p class="comment-text">{{ comment.comments }}</p>
+                    {% endif %}
+                </article>
+            {% else %}
+                <p>No comments yet. Start the discussion.</p>
+            {% endfor %}
+        </section>
+    </main>
+    <footer><p>&copy; 2026 Ghibli Fans. All rights reserved.</p></footer>
 </body>
 </html>

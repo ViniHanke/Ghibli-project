@@ -451,3 +451,185 @@ footer {
   font-size: 0.875em;
   color: #6c757d;
 }
+
+/* Layout for the database-backed Ghibli Fans pages. */
+body {
+  margin: 0;
+  color: #263238;
+  background: #f4f6f8;
+  line-height: 1.5;
+}
+
+.site-header {
+  padding: 1rem 2rem;
+  background: #fff;
+}
+
+.site-header img {
+  display: block;
+  width: min(100%, 640px);
+  height: auto;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 2rem;
+  background: #263238;
+  color: #fff;
+}
+
+.site-nav span {
+  margin-right: auto;
+}
+
+.button,
+button {
+  display: inline-block;
+  border: 0;
+  border-radius: 4px;
+  padding: 0.7rem 1rem;
+  color: #fff;
+  background: #3274d6;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover,
+button:hover {
+  background: #245cae;
+  color: #fff;
+}
+
+.button-danger {
+  background: #b42318;
+}
+
+.form-card,
+.page-content {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-card {
+  max-width: 520px;
+  width: auto;
+}
+
+.form-card h1,
+.page-content h1,
+.page-content h2 {
+  color: #263f5b;
+  font-size: 1.6rem;
+}
+
+.form-card form,
+.comment-form form,
+.comment-edit-form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.form-card input,
+textarea {
+  width: 100%;
+  min-height: 2.7rem;
+  border: 1px solid #b8c2cc;
+  border-radius: 4px;
+  padding: 0.6rem;
+  font: inherit;
+}
+
+textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.message {
+  border-radius: 4px;
+  padding: 0.7rem 1rem;
+}
+
+.message.error {
+  color: #842029;
+  background: #f8d7da;
+}
+
+.message.success {
+  color: #0f5132;
+  background: #d1e7dd;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.movie-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.movie-table th,
+.movie-table td {
+  border: 1px solid #d5dce2;
+  padding: 0.6rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.movie-table th {
+  background: #eaf0f6;
+}
+
+.movie-poster {
+  display: block;
+  width: 90px;
+  height: auto;
+}
+
+.comment-form,
+.comments {
+  margin-top: 2rem;
+}
+
+.comment-card {
+  margin: 1rem 0;
+  border: 1px solid #d5dce2;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.comment-by {
+  color: #526170;
+}
+
+.inline-form {
+  margin-top: 0.6rem;
+}
+
+footer {
+  padding: 1rem 2rem;
+  color: #526170;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .site-header,
+  .site-nav {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .form-card,
+  .page-content {
+    margin: 1rem;
+    padding: 1rem;
+  }
+}

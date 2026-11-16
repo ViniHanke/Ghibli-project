@@ -1,4 +1,4 @@
---DROP DATABASE `ghibli`;
+
 CREATE DATABASE `ghibli`;
 
 USE `ghibli`;

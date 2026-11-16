@@ -1,49 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Meta tags, web page title, and links to external CSS and JavaScript files -->
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Ghibli Fans - movies </title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ghibli Fans - Movies</title>
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-	<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 </head>
-
 <body>
-    <header>
-        <!-- Header image (Studio Ghibli logo) -->
-        <div class="header-img">
-            <a class="navbar-brand" href="/">
-                <img style="max-width:640px; margin-top: 1px;" src="{{ url_for('static', filename='img/Studio-Ghibli-Logo.jpg') }}">
-            </a>
-        </div>
+    <header class="site-header">
+        <a href="{{ url_for('movies') }}" aria-label="Ghibli Fans movies">
+            <img src="{{ url_for('static', filename='img/Studio-Ghibli-Logo.jpg') }}" alt="Studio Ghibli logo">
+        </a>
     </header>
-
- 
-	<nav>
-		<!-- Navigation button to the register page -->
-		<div class="navbar-links">
-			<a href="{{ url_for('register') }}">
-				<button type="button" class="btn btn-primary" aria-label="Left Align" style="margin-top: 5px; margin-bottom: 5px; height: 44px; margin-right: 15px">
-					<span class="glyphicon glyphicon-off" aria-hidden="true">Register</span>
-				</button>
-			</a>
-		</div>
+    <nav class="site-nav" aria-label="Main navigation">
+        <span>Signed in as {{ session['member_name'] }}</span>
+        <a class="button" href="{{ url_for('logout') }}">Log out</a>
     </nav>
-
-    <content>
-	    
-            <!-- main content -->
-            <h2>Ghibli Fans - movies </h2>
-            
-	</content>
-
-	<footer>
-		<!-- Footer content (e.g. Copyright notice) -->
-		<div class="blockquote-footer">
-			<p>&copy; 2026 Ghibli Fans. All rights reserved.</p>
-		</div>	
-    </footer>
-
+    <main class="page-content">
+        <h1>Welcome, {{ session['member_name'] }}!</h1>
+        <p>Choose a movie poster to read and join its discussion. Movie titles open a Google search in a new tab.</p>
+        <p class="movie-count">Showing {{ movies|length }} films.</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p class="message {{ category }}" role="status">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+        <div class="table-scroll">
+            <table class="movie-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Poster</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Director</th>
+                        <th scope="col">Length</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Movie ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movie in movies %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('discussion', movie_id=movie[0]) }}" aria-label="Discuss {{ movie[1] }}">
+                                <img class="movie-poster" src="{{ url_for('static', filename='movie_img/' ~ movie[0] ~ '.jpg') }}" alt="{{ movie[1] }} poster">
+                            </a>
+                        </td>
+                        <td><a href="https://www.google.com/search?q={{ movie[1]|urlencode }}" target="_blank" rel="noopener noreferrer">{{ movie[1] }}</a></td>
+                        <td>{{ movie[2] }}</td>
+                        <td>{{ movie[3] }}</td>
+                        <td>{{ movie[4] }} min</td>
+                        <td>{{ movie[5] }}</td>
+                        <td>{{ movie[0] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="7">No movies are currently listed.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer><p>&copy; 2026 Ghibli Fans. All rights reserved.</p></footer>
 </body>
 </html>

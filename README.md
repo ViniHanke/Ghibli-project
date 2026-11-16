@@ -1,66 +1,76 @@
 # Ghibli Fans
 
-A Flask web app for Studio Ghibli fans. The project includes page templates for logging in, registering, viewing movies, and discussing films. Some route functionality is still in progress.
+A Flask and MySQL forum for browsing Studio Ghibli films and discussing each movie. Members can register, log in, view comments, and create, update, or delete their own comments.
 
 ## Requirements
 
 - Python 3.9 or later
-- MySQL or MariaDB
-- The MySQL client development tools needed by `mysqlclient`
+- XAMPP with its MySQL/MariaDB server, or another local MySQL-compatible server
+- The MySQL client development tools required by `mysqlclient`
 
-On macOS with Homebrew, install the client tools and `pkg-config`:
+On macOS with Homebrew, install the client tools and `pkg-config` if needed:
 
 ```bash
 brew install pkg-config mysql-client
 ```
 
-If Homebrew reports that `mysql-client` is keg-only, make its package metadata available to `pkg-config` in the terminal you use for installation:
+If Homebrew reports that `mysql-client` is keg-only, make its package metadata available in the terminal used to install Python packages:
 
 ```bash
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/mysql-client/lib/pkgconfig"
 ```
 
-## Setup
+## Set up the database
 
-Create and activate a virtual environment from the project directory:
+1. Start MySQL in XAMPP.
+2. In phpMyAdmin, import `dev/ghibli.sql`. This creates the `ghibli` database, its `member`, `movie`, and `discussion` tables, and the supplied sample data.
+3. The default local settings in `index.py` use host `127.0.0.1`, user `root`, an empty password, and database `ghibli`. If your XAMPP MySQL settings differ, update those values in `index.py`.
+
+The SQL file creates a fresh database. Do not import it over a database containing records you need to keep unless you have backed up that database first.
+
+## Set up and run the app
+
+From the project directory:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-```
-
-Install the Python packages:
-
-```bash
 python -m pip install Flask Flask-MySQLdb
-```
-
-Create the database and load the sample tables and data:
-
-```bash
-mysql -u root -p < dev/ghibli.sql
-```
-
-Enter your MySQL password when prompted. The app currently expects a database named `ghibli`, a local MySQL server, user `root`, and an empty password. If your MySQL settings differ, update the MySQL configuration in `index.py` before running the app.
-
-## Run
-
-With the virtual environment active and MySQL running, start the Flask app:
-
-```bash
 python index.py
 ```
 
-The app runs in Flask debug mode. Open the local address shown in the terminal, usually `http://127.0.0.1:5000`.
+Open <http://127.0.0.1:5000/>. Set `FLASK_SECRET_KEY` to a private value in your terminal before running the app outside local coursework use.
+
+## Sample accounts
+
+The supplied SQL data includes these accounts:
+
+| Username | Password | Member |
+| --- | --- | --- |
+| `jimmy123` | `jimmy123` | Jimmy Page |
+| `will123` | `will123` | Will Stanford |
+
+These are coursework sample credentials and should not be used in a public deployment.
+
+## Features
+
+- Register a member with server-side validation and duplicate username/email checks.
+- Log in against the `member` table and keep the member ID and display name in a Flask session.
+- Restrict movie and discussion pages to logged-in members.
+- Display the movie catalogue from MySQL with clickable poster images and title search links.
+- Display all comments for a selected movie. Members can add comments and edit or delete only comments they own.
+- Use parameterized SQL for database values and Jinja's automatic HTML escaping for displayed content.
 
 ## Project structure
 
-- `index.py` — Flask app and route definitions
-- `templates/` — HTML templates
-- `static/` — CSS, images, and other static assets
+- `index.py` — Flask routes, validation, session handling, and SQL operations
+- `templates/` — login, registration, movie, discussion, and logout page templates
+- `static/css/style.css` — site styling
+- `static/movie_img/` — movie posters named by `movieID`
+- `static/img/` — site logo and favicon
 - `dev/ghibli.sql` — database schema and sample data
 
-## Development status
+## Data and security notes
 
-The login, registration, movie, and discussion routes are present, but several route handlers are marked as unfinished in `index.py`. The app may need additional implementation before those features work end to end.
+The supplied database schema stores passwords in a 12-character text field. To remain compatible with the provided sample accounts and schema, this coursework version compares those stored passwords directly. A public deployment should migrate to a password-hash column and use a production secret key, HTTPS, CSRF protection, and a restricted database account.
