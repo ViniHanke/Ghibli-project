@@ -1,49 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<!-- Meta tags, web page title, and links to external CSS and JavaScript files -->
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Ghibli Fans - logout </title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-	<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
-    <header>
-        <!-- Header image (Studio Ghibli logo) -->
-        <div class="header-img">
-            <a class="navbar-brand" href="/">
-                <img style="max-width:640px; margin-top: 1px;" src="{{ url_for('static', filename='img/Studio-Ghibli-Logo.jpg') }}">
-            </a>
-        </div>
-    </header>
+{% block title %}Ghibli Fans - Logout{% endblock %}
 
- 
-	<nav>
-		<!-- Navigation button to the register page -->
-		<div class="navbar-links">
-			<a href="{{ url_for('register') }}">
-				<button type="button" class="btn btn-primary" aria-label="Left Align" style="margin-top: 5px; margin-bottom: 5px; height: 44px; margin-right: 15px">
-					<span class="glyphicon glyphicon-off" aria-hidden="true">Register</span>
-				</button>
-			</a>
-		</div>
-    </nav>
+{% block navigation %}
+    <a class="button" href="{{ url_for('register') }}">Register</a>
+{% endblock %}
 
-    <content>
-	    
-            <!-- main content -->
-            <h2>Ghibli Fans - logout </h2>
-            
-	</content>
-
-	<footer>
-		<!-- Footer content (e.g. Copyright notice) -->
-		<div class="blockquote-footer">
-			<p>&copy; 2026 Ghibli Fans. All rights reserved.</p>
-		</div>	
-    </footer>
-
-</body>
-</html>
+{% block content %}
+    <main class="page-content">
+        <h1>Ghibli Fans - Logout</h1>
+        <p>You have been logged out.</p>
+        <a class="button" href="{{ url_for('login') }}">Return to login</a>
+    </main>
+{% endblock %}

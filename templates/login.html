@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ghibli Fans - Login</title>
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-</head>
-<body>
-    <header class="site-header">
-        <a href="{{ url_for('login') }}" aria-label="Ghibli Fans home">
-            <img src="{{ url_for('static', filename='img/Studio-Ghibli-Logo.jpg') }}" alt="Studio Ghibli logo">
-        </a>
-    </header>
-    <nav class="site-nav" aria-label="Main navigation">
-        <a class="button" href="{{ url_for('register') }}">Register</a>
-    </nav>
+{% extends "base.html" %}
+
+{% block title %}Ghibli Fans - Login{% endblock %}
+{% block navigation %}
+    <a class="button" href="{{ url_for('register') }}">Register</a>
+{% endblock %}
+
+{% block content %}
     <main class="form-card login">
         <h1>Ghibli Fans Login</h1>
         <p>Log in to read and join discussions about Studio Ghibli films.</p>
@@ -32,6 +22,4 @@
             <button type="submit">Log in</button>
         </form>
     </main>
-    <footer><p>&copy; 2026 Ghibli Fans. All rights reserved.</p></footer>
-</body>
-</html>
+{% endblock %}

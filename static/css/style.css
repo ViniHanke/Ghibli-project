@@ -64,13 +64,11 @@ body {
   	padding-top: 20px;
 }
 .login form label, .register form label {
-  	display: flex;
-  	justify-content: center;
-  	align-items: center;
-  	width: 50px;
-  	height: 50px;
-  	background-color: #3274d6;
-  	color: #ffffff;
+  display: block;
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  color: inherit;
 }
 .login form input[type="password"], .login form input[type="text"], .login form input[type="email"], .register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
   	width: 310px;
@@ -522,6 +520,41 @@ button:hover {
   width: auto;
 }
 
+.form-card.login h1 {
+  margin-top: 0;
+}
+
+.form-card.login p {
+  margin-left: 0;
+}
+
+.form-card.login input[type="text"],
+.form-card.login input[type="password"] {
+  width: 100%;
+  height: auto;
+  min-height: 2.7rem;
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 4px;
+}
+
+.form-card.login input[type="text"]:focus,
+.form-card.login input[type="password"]:focus {
+  border-color: #3274d6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(50, 116, 214, 0.18);
+}
+
+.form-card.login button {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.form-card.login button:focus-visible {
+  outline: 2px solid #3274d6;
+  outline-offset: 2px;
+}
+
 .form-card h1,
 .page-content h1,
 .page-content h2 {
@@ -564,6 +597,111 @@ textarea {
 .message.success {
   color: #0f5132;
   background: #d1e7dd;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.movie-card {
+  overflow: hidden;
+  background: #fbf7ed;
+  border: 1px solid #e2e4d5;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(55, 75, 58, 0.1);
+  animation: movie-card-arrive 0.45s ease both;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(55, 75, 58, 0.17);
+}
+
+.movie-card-poster {
+  display: block;
+  overflow: hidden;
+  background: #e9eee4;
+  aspect-ratio: 2 / 3;
+}
+
+.movie-card-poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.movie-card:hover .movie-card-poster img {
+  transform: scale(1.035);
+}
+
+.movie-card-details {
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.movie-card-details h2 {
+  margin: 0 0 0.4rem;
+  color: #354d3a;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.movie-card-details h2 a {
+  color: inherit;
+  text-decoration-color: #a9b99c;
+  text-underline-offset: 3px;
+}
+
+.movie-card-details h2 a:hover {
+  color: #758b67;
+}
+
+.movie-card-details p {
+  margin: 0.35rem 0 0;
+  color: #626b5b;
+  line-height: 1.45;
+}
+
+.movie-card-details .movie-card-year {
+  color: #9a7457;
+  font-weight: 600;
+}
+
+.movie-grid-empty {
+  grid-column: 1 / -1;
+  padding: 1.5rem;
+  color: #626b5b;
+  background: #fbf7ed;
+  border-radius: 12px;
+}
+
+@keyframes movie-card-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movie-card,
+  .movie-card-poster img {
+    animation: none;
+    transition: none;
+  }
+
+  .movie-card:hover,
+  .movie-card:hover .movie-card-poster img {
+    transform: none;
+  }
 }
 
 .table-scroll {
@@ -632,4 +770,5 @@ footer {
     margin: 1rem;
     padding: 1rem;
   }
+
 }

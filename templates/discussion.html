@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ghibli Fans - {{ movie.title }}</title>
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-</head>
-<body>
-    <header class="site-header">
-        <a href="{{ url_for('movies') }}" aria-label="Ghibli Fans movies">
-            <img src="{{ url_for('static', filename='img/Studio-Ghibli-Logo.jpg') }}" alt="Studio Ghibli logo">
-        </a>
-    </header>
-    <nav class="site-nav" aria-label="Main navigation">
-        <a class="button" href="{{ url_for('movies') }}">Movies</a>
-        <a class="button" href="{{ url_for('logout') }}">Log out</a>
-    </nav>
+{% extends "base.html" %}
+
+{% block title %}Ghibli Fans - {{ movie.title }}{% endblock %}
+{% block brand_link %}{{ url_for('movies') }}{% endblock %}
+
+{% block navigation %}
+    <a class="button" href="{{ url_for('movies') }}">Movies</a>
+    <a class="button" href="{{ url_for('logout') }}">Log out</a>
+{% endblock %}
+
+{% block content %}
     <main class="page-content">
         <h1>Discussion: {{ movie.title }}</h1>
         <p>Signed in as {{ session['member_name'] }}. You can edit or delete your own comments.</p>
@@ -63,6 +55,4 @@
             {% endfor %}
         </section>
     </main>
-    <footer><p>&copy; 2026 Ghibli Fans. All rights reserved.</p></footer>
-</body>
-</html>
+{% endblock %}
